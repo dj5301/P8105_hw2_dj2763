@@ -1,7 +1,7 @@
 HW2
 ================
 
-loading library for hw2
+Loading library for hw2
 
 ``` r
 library(tidyverse)
@@ -18,7 +18,13 @@ library(tidyverse)
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
-Loading 3 datasets
+``` r
+library(readxl)
+```
+
+# Problem 1
+
+1.  Loading 3 datasets
 
 ``` r
 pols_data <-
@@ -64,7 +70,10 @@ snp_data  <-
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-Use separate() to break up the variable mon into integer variables
+2.  Use separate() to break up the variable ‘mon’ column into integer
+    variables
+
+*For pols data:*
 
 ``` r
 d <- pols_data |> 
@@ -105,23 +114,9 @@ d <- pols_data |>
   ) |> 
   select(-value) |> 
   arrange(desc(year))
-d
 ```
 
-    ## # A tibble: 1,644 × 9
-    ##     year month gov_gop sen_gop rep_gop gov_dem sen_dem rep_dem president
-    ##    <dbl> <fct>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl> <chr>    
-    ##  1  2015 jan        31      54     245      18      44     188 gop      
-    ##  2  2015 jan        31      54     245      18      44     188 dem      
-    ##  3  2015 feb        31      54     245      18      44     188 gop      
-    ##  4  2015 feb        31      54     245      18      44     188 dem      
-    ##  5  2015 mar        31      54     245      18      44     188 gop      
-    ##  6  2015 mar        31      54     245      18      44     188 dem      
-    ##  7  2015 apr        31      54     244      18      44     188 gop      
-    ##  8  2015 apr        31      54     244      18      44     188 dem      
-    ##  9  2015 may        31      54     245      18      44     188 gop      
-    ## 10  2015 may        31      54     245      18      44     188 dem      
-    ## # ℹ 1,634 more rows
+*For snap data:*
 
 ``` r
 p <- snp_data |> 
@@ -154,26 +149,11 @@ p <- snp_data |>
     ),
   month = as.factor(month)
   ) |> 
-  select(-day)|> 
+  select(-day) |> 
   arrange(desc(year))
-
-p
 ```
 
-    ## # A tibble: 787 × 3
-    ##     year month close
-    ##    <dbl> <fct> <dbl>
-    ##  1  2015 jul   2080.
-    ##  2  2015 jun   2063.
-    ##  3  2015 may   2107.
-    ##  4  2015 apr   2086.
-    ##  5  2015 mar   2068.
-    ##  6  2015 feb   2104.
-    ##  7  2015 jan   1995.
-    ##  8  2014 dec   2059.
-    ##  9  2014 nov   2068.
-    ## 10  2014 oct   2018.
-    ## # ℹ 777 more rows
+*For unemployment data:*
 
 ``` r
 q <- unemployment_data |> 
@@ -181,25 +161,12 @@ q <- unemployment_data |>
     cols = c(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec),
     names_to = "month",
     values_to = "rate"
-    )|> 
+    ) |> 
   arrange(desc(year))
-q
 ```
 
-    ## # A tibble: 816 × 3
-    ##     year month  rate
-    ##    <dbl> <chr> <dbl>
-    ##  1  2015 jan     5.7
-    ##  2  2015 feb     5.5
-    ##  3  2015 mar     5.5
-    ##  4  2015 apr     5.4
-    ##  5  2015 may     5.5
-    ##  6  2015 jun     5.3
-    ##  7  2015 jul    NA  
-    ##  8  2015 aug    NA  
-    ##  9  2015 sep    NA  
-    ## 10  2015 oct    NA  
-    ## # ℹ 806 more rows
+3.  Left join pols data with snap data and unemployment data, show final
+    data
 
 ``` r
 final_data <- d |> 
@@ -223,6 +190,8 @@ final_data
     ## 10  2015 may        31      54     245      18      44     188 dem         5.5
     ## # ℹ 1,634 more rows
     ## # ℹ 1 more variable: close <dbl>
+
+## Description of the dataset
 
 The pols-month.csv data contains partisan control of the US presidential
 election and Congress, recorded on a monthly basis.
@@ -248,9 +217,11 @@ unemployment: Monthly unemployment rate
 This merged dataset allows us to simultaneously examine the relationship
 between politics, the economy, and the labor market.
 
-``` r
-library(readxl)
-```
+# Problem 2
+
+1.  Import data and initial data cleaning
+
+*Trash Wheel Data:*
 
 ``` r
 Trash_Wheel_data <- 
@@ -270,8 +241,8 @@ Trash_Wheel_data <- Trash_Wheel_data |>
     "plastic_bags","wrappers","homes_powered","sports_balls"
   ) |> 
   filter(!is.na(date)) |> 
-  mutate(sports_balls = as.integer( round(sports_balls ) ) ) |> 
-  mutate(wheel_name   = "Mr. Trash Wheel" )
+  mutate(sports_balls = as.integer(round(sports_balls))) |> 
+  mutate(wheel_name = "Mr. Trash Wheel")
 Trash_Wheel_data
 ```
 
@@ -292,6 +263,8 @@ Trash_Wheel_data
     ## # ℹ 9 more variables: plastic_bottles <dbl>, polystyrene <dbl>,
     ## #   cigarette_butts <dbl>, glass_bottles <dbl>, plastic_bags <dbl>,
     ## #   wrappers <dbl>, homes_powered <dbl>, sports_balls <int>, wheel_name <chr>
+
+*Professor Data:*
 
 ``` r
 Professor_Trash_Wheel_data <- 
@@ -326,6 +299,8 @@ Professor_Trash_Wheel_data
     ## #   cigarette_butts <dbl>, glass_bottles <dbl>, plastic_bags <dbl>,
     ## #   wrappers <dbl>, homes_powered <dbl>, wheel_name <chr>
 
+*Gwynnda Data:*
+
 ``` r
 Gwynnda_Trash_Wheel_data <-
   janitor::clean_names(read_excel("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/202509 Trash Wheel Collection Data.xlsx", sheet = "Gwynns Falls Trash Wheel") )
@@ -359,8 +334,11 @@ Gwynnda_Trash_Wheel_data
     ## #   cigarette_butts <dbl>, plastic_bags <dbl>, wrappers <dbl>,
     ## #   homes_powered <dbl>, wheel_name <chr>
 
+2.  Final data organization
+
 ``` r
-Final_Trash_wheel_data <- bind_rows(Trash_Wheel_data,Professor_Trash_Wheel_data,Gwynnda_Trash_Wheel_data) |> 
+Final_Trash_wheel_data <- 
+  bind_rows(Trash_Wheel_data, Professor_Trash_Wheel_data, Gwynnda_Trash_Wheel_data) |> 
   arrange(date, wheel_name)
 Final_Trash_wheel_data
 ```
@@ -382,6 +360,8 @@ Final_Trash_wheel_data
     ## # ℹ 9 more variables: plastic_bottles <dbl>, polystyrene <dbl>,
     ## #   cigarette_butts <dbl>, glass_bottles <dbl>, plastic_bags <dbl>,
     ## #   wrappers <dbl>, homes_powered <dbl>, sports_balls <int>, wheel_name <chr>
+
+3.  Questions answer
 
 ``` r
 Professor_total_weight <- Professor_Trash_Wheel_data |> 
@@ -405,13 +385,7 @@ Gwynnda_202206_cigarette
 ## Explaination
 
 We collated and merged the datasets from the three collection devices,
-resulting in a tidy data frame with 1644 observations. Examples of key
-variables include c(2015, 2015, 2015, 2015, 2015, 2015), c(“jan”, “jan”,
-“feb”, “feb”, “mar”, “mar”), c(31, 31, 31, 31, 31, 31), c(54, 54, 54,
-54, 54, 54), c(245, 245, 245, 245, 245, 245), c(18, 18, 18, 18, 18, 18),
-c(44, 44, 44, 44, 44, 44), c(188, 188, 188, 188, 188, 188), c(“gop”,
-“dem”, “gop”, “dem”, “gop”, “dem”), c(5.7, 5.7, 5.5, 5.5, 5.5, 5.5),
-c(1994.98999, 1994.98999, 2104.5, 2104.5, 2067.889893, 2067.889893).
+resulting in a tidy data frame with 1644 observations.
 
 Professor Trash Wheel collected a total of **282.3 tons of trash in the
 available data. Gwynnda collected a total of **18,120\*\* cigarette
@@ -424,6 +398,10 @@ missing rows for `date` and `dumpster` and retaining only the relevant
 columns for trash items). Additionally, we round the *Sports Balls*
 variable to the nearest integer and convert it to integer type
 (`as.integer(round(...))`) to be consistent with downstream analyses.
+
+# Problem 3
+
+1.  Import 2 dataset
 
 ``` r
 zip_data  <-
@@ -441,25 +419,6 @@ zip_data  <-
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
-zip_data
-```
-
-    ## # A tibble: 322 × 7
-    ##    county state_fips county_code county_fips zip_code file_date neighborhood    
-    ##    <chr>       <dbl> <chr>             <dbl>    <dbl> <chr>     <chr>           
-    ##  1 Bronx          36 005               36005    10451 7/25/07   High Bridge and…
-    ##  2 Bronx          36 005               36005    10452 7/25/07   High Bridge and…
-    ##  3 Bronx          36 005               36005    10453 7/25/07   Central Bronx   
-    ##  4 Bronx          36 005               36005    10454 7/25/07   Hunts Point and…
-    ##  5 Bronx          36 005               36005    10455 7/25/07   Hunts Point and…
-    ##  6 Bronx          36 005               36005    10456 7/25/07   High Bridge and…
-    ##  7 Bronx          36 005               36005    10457 7/25/07   Central Bronx   
-    ##  8 Bronx          36 005               36005    10458 7/25/07   Bronx Park and …
-    ##  9 Bronx          36 005               36005    10459 7/25/07   Hunts Point and…
-    ## 10 Bronx          36 005               36005    10460 7/25/07   Central Bronx   
-    ## # ℹ 312 more rows
-
-``` r
 zip_zori_data  <-
   read_csv("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/zillow_data/Zip_zori_uc_sfrcondomfr_sm_month_NYC.csv",na = c("NA",".","") ) |>
   janitor::clean_names()
@@ -474,30 +433,7 @@ zip_zori_data  <-
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-``` r
-zip_zori_data
-```
-
-    ## # A tibble: 149 × 125
-    ##    region_id size_rank region_name region_type state_name state city     metro  
-    ##        <dbl>     <dbl>       <dbl> <chr>       <chr>      <chr> <chr>    <chr>  
-    ##  1     62080         4       11368 zip         NY         NY    New York New Yo…
-    ##  2     62093         7       11385 zip         NY         NY    New York New Yo…
-    ##  3     62019         9       11208 zip         NY         NY    New York New Yo…
-    ##  4     62046        16       11236 zip         NY         NY    New York New Yo…
-    ##  5     61807        17       10467 zip         NY         NY    New York New Yo…
-    ##  6     62085        18       11373 zip         NY         NY    New York New Yo…
-    ##  7     62037        19       11226 zip         NY         NY    New York New Yo…
-    ##  8     62018        20       11207 zip         NY         NY    New York New Yo…
-    ##  9     61639        29       10025 zip         NY         NY    New York New Yo…
-    ## 10     62025        32       11214 zip         NY         NY    New York New Yo…
-    ## # ℹ 139 more rows
-    ## # ℹ 117 more variables: county_name <chr>, x2015_01_31 <dbl>,
-    ## #   x2015_02_28 <dbl>, x2015_03_31 <dbl>, x2015_04_30 <dbl>, x2015_05_31 <dbl>,
-    ## #   x2015_06_30 <dbl>, x2015_07_31 <dbl>, x2015_08_31 <dbl>, x2015_09_30 <dbl>,
-    ## #   x2015_10_31 <dbl>, x2015_11_30 <dbl>, x2015_12_31 <dbl>, x2016_01_31 <dbl>,
-    ## #   x2016_02_29 <dbl>, x2016_03_31 <dbl>, x2016_04_30 <dbl>, x2016_05_31 <dbl>,
-    ## #   x2016_06_30 <dbl>, x2016_07_31 <dbl>, x2016_08_31 <dbl>, …
+2.  Initial data cleaning with ‘borough’ row added
 
 ``` r
 zip_data_1 <- zip_data |> 
@@ -533,6 +469,8 @@ zip_data_1
     ## 10 10010    New York Gramercy Park and Murray Hill Manhattan
     ## # ℹ 310 more rows
 
+3.  Converted wide dataset to long dataset
+
 ``` r
 zip_zori_data_1 <- zip_zori_data |> 
   pivot_longer(
@@ -562,19 +500,21 @@ zip_zori_data_1
     ## # ℹ 4 more variables: county_name <chr>, date <date>, zori <dbl>,
     ## #   zip_code <chr>
 
+4.  Final data organization
+
 ``` r
 final_tidy <- zip_zori_data_1 |> 
   left_join(zip_data_1, by = "zip_code") |> 
 
   select(
-    zip_code, borough, neighborhood, date, zori,
-    region_id, size_rank, region_type, state_name, state, city, metro, county_name
+    zip_code, borough, neighborhood, date, zori, 
+    everything()
   ) |> 
   arrange(zip_code, date)
 final_tidy
 ```
 
-    ## # A tibble: 17,284 × 13
+    ## # A tibble: 17,284 × 15
     ##    zip_code borough   neighborhood        date        zori region_id size_rank
     ##    <chr>    <chr>     <chr>               <date>     <dbl>     <dbl>     <dbl>
     ##  1 10001    Manhattan Chelsea and Clinton 2015-01-31 3855.     61615      4444
@@ -588,13 +528,15 @@ final_tidy
     ##  9 10001    Manhattan Chelsea and Clinton 2015-09-30 4040.     61615      4444
     ## 10 10001    Manhattan Chelsea and Clinton 2015-10-31 4023.     61615      4444
     ## # ℹ 17,274 more rows
-    ## # ℹ 6 more variables: region_type <chr>, state_name <chr>, state <chr>,
-    ## #   city <chr>, metro <chr>, county_name <chr>
+    ## # ℹ 8 more variables: region_name <dbl>, region_type <chr>, state_name <chr>,
+    ## #   state <chr>, city <chr>, metro <chr>, county_name <chr>, county <chr>
+
+5.  Top 10 data
 
 ``` r
 x2020_2021_answer <- final_tidy |> 
   filter(
-    (date >= ymd("2020-01-01") & date <= ymd("2020-01-31")) |
+    (date >= ymd("2020-01-01") & date <= ymd("2020-01-31")) | 
     (date >= ymd("2021-01-01") & date <= ymd("2021-01-31"))
   ) |> 
   mutate(date = format(date, "%Y-%m")) |> 
@@ -631,7 +573,9 @@ top10_change
     ##  9 10012    Manhattan Greenwich Village and S… 3629. 2942.  -686.          -18.9
     ## 10 10010    Manhattan Gramercy Park and Murra… 3697. 3012.  -685.          -18.5
 
-17284 observations, 13 variables， 149distinct zip code, and 42 distinct
+## Explaination
+
+17284 observations, 15 variables, 149distinct zip code, and 42 distinct
 community
 
 Before the merge, I removed the duplicated ZIP table, resolving rare
