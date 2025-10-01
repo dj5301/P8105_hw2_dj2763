@@ -223,7 +223,7 @@ Gwynnda_202206_cigarette
 
 
 ## Explaination
-We collated and merged the datasets from the three collection devices, resulting in a tidy data frame with `r nrow(final_data)` observations. Examples of key variables include `r paste(head(final_data, 6), collapse = ", ")`.
+We collated and merged the datasets from the three collection devices, resulting in a tidy data frame with `r nrow(final_data)` observations.
 
 Professor Trash Wheel collected a total of **`r round(Professor_total_weight, 1)` tons of trash in the available data.
 Gwynnda collected a total of **`r scales::comma(Gwynnda_202206_cigarette)`** cigarette butts in **June 2022**.
