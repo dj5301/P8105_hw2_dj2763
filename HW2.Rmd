@@ -206,7 +206,7 @@ Gwynnda_202206_cigarette
 
 ## Explaination
 
-We put together and combined the data from the three collection devices, which gave us a neat data frame with `r nrow(final_data)` observations.
+We put together and combined the data from the three collection devices, which gave us a neat data frame with `r nrow(Final_Trash_wheel_data)` observations.
 
 According to the data, Professor Trash Wheel picked up `r round(Professor_total_weight, 1)` tons of trash.
 In **June 2022**, Gwynnda picked up a total of `r scales::comma(Gwynnda_202206_cigarette)` cigarette butts.

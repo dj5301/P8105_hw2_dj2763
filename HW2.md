@@ -70,7 +70,7 @@ snp_data  <-
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-2.  Use separate() to break up the variable ‘mon’ column into integer
+2.  Use separate( ) to break up the variable ‘mon’ column into integer
     variables
 
 *For pols data:*
@@ -369,7 +369,7 @@ Gwynnda_202206_cigarette
 ## Explaination
 
 We put together and combined the data from the three collection devices,
-which gave us a neat data frame with 1644 observations.
+which gave us a neat data frame with 1188 observations.
 
 According to the data, Professor Trash Wheel picked up 282.3 tons of
 trash. In **June 2022**, Gwynnda picked up a total of 18,120 cigarette
