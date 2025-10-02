@@ -13,15 +13,15 @@ library(readxl)
 1. Loading 3 datasets
 ```{r}
 pols_data <-
-  read_csv("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/fivethirtyeight_datasets/pols-month.csv",na = c("NA",".","") ) |> 
+  read_csv("fivethirtyeight_datasets/pols-month.csv",na = c("NA",".","") ) |> 
   janitor::clean_names()
 
 unemployment_data  <-
-  read_csv("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/fivethirtyeight_datasets/unemployment.csv",na = c("NA",".","") ) |> 
+  read_csv("fivethirtyeight_datasets/unemployment.csv",na = c("NA",".","") ) |> 
   janitor::clean_names()
 
 snp_data  <-
-  read_csv("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/fivethirtyeight_datasets/snp.csv",na = c("NA",".","") )  |> 
+  read_csv("fivethirtyeight_datasets/snp.csv",na = c("NA",".","") )  |> 
   janitor::clean_names()
 ```
 
@@ -134,7 +134,7 @@ The month of pols.The csv data shows which party controls the US Congress and pr
 *Trash Wheel Data:*
 ```{r}
 Trash_Wheel_data <- 
-  janitor::clean_names(read_excel("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/202509 Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel") ) 
+  janitor::clean_names(read_excel("202509 Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel") ) 
 
 Trash_Wheel_data <- Trash_Wheel_data |>
   mutate(year = as.numeric(year)) |> 
@@ -152,7 +152,7 @@ Trash_Wheel_data
 *Professor Data:*
 ```{r}
 Professor_Trash_Wheel_data <- 
-  janitor::clean_names(read_excel("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/202509 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") )
+  janitor::clean_names(read_excel("202509 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") )
 
 Professor_Trash_Wheel_data <- Professor_Trash_Wheel_data |> 
   select(
@@ -168,7 +168,7 @@ Professor_Trash_Wheel_data
 *Gwynnda Data:*
 ```{r}
 Gwynnda_Trash_Wheel_data <-
-  janitor::clean_names(read_excel("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/202509 Trash Wheel Collection Data.xlsx", sheet = "Gwynns Falls Trash Wheel") )
+  janitor::clean_names(read_excel("202509 Trash Wheel Collection Data.xlsx", sheet = "Gwynns Falls Trash Wheel") )
 
 Gwynnda_Trash_Wheel_data <- Gwynnda_Trash_Wheel_data |> 
   select(
@@ -217,11 +217,11 @@ To ensure reproducibility, we imported the data using `readxl::read_excel()` wit
 1. Import 2 dataset
 ```{r}
 zip_data  <-
-  read_csv("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/zillow_data/Zip Codes.csv",na = c("NA",".","") ) |> 
+  read_csv("zillow_data/Zip Codes.csv",na = c("NA",".","") ) |> 
   janitor::clean_names()
 
 zip_zori_data  <-
-  read_csv("~/Desktop/💻/按课程类型分类/P8105 Data Science 1/Homeworks/HW2/zillow_data/Zip_zori_uc_sfrcondomfr_sm_month_NYC.csv",na = c("NA",".","") ) |>
+  read_csv("zillow_data/Zip_zori_uc_sfrcondomfr_sm_month_NYC.csv",na = c("NA",".","") ) |>
   janitor::clean_names()
 ```
 
