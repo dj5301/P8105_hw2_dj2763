@@ -25,7 +25,7 @@ snp_data  <-
   janitor::clean_names()
 ```
 
-2. Use separate() to break up the variable 'mon' column into integer variables 
+2. Use separate( ) to break up the variable 'mon' column into integer variables 
 
 *For pols data:*
 ```{r}
