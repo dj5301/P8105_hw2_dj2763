@@ -193,29 +193,13 @@ final_data
 
 ## Description of the dataset
 
-The pols-month.csv data contains partisan control of the US presidential
-election and Congress, recorded on a monthly basis.
-
-The snp.csv data contains closing prices for the S&P 500 index,
-documenting the performance of financial markets.
-
-The unemployment.csv data provides the monthly unemployment rate for the
-US.
-
-After cleaning and merging, we obtain a tidy data frame, `final_data`,
-with 1644 rows and 11 columns, spanning approximately 1947 to 2015
-years. Key variables include:
-
-year, month: Time key
-
-president: Presidential party (gov/dem)
-
-close: S&P 500 monthly closing index
-
-unemployment: Monthly unemployment rate
-
-This merged dataset allows us to simultaneously examine the relationship
-between politics, the economy, and the labor market.
+The month of pols.The csv data shows which party controls the US
+Congress and presidential elections, recorded every month. The snp.csv
+file has the closing prices for the S&P 500 index, which shows how well
+the financial markets are doing. The jobless rate.The csv file has the
+US’s monthly unemployment rate. After cleaning and merging, we get a
+neat data frame called `final_data` that has 1644 rows and 11 columns.
+The years it covers are from 1947 to 2015. Some important variables are:
 
 # Problem 2
 
@@ -384,20 +368,21 @@ Gwynnda_202206_cigarette
 
 ## Explaination
 
-We collated and merged the datasets from the three collection devices,
-resulting in a tidy data frame with 1644 observations.
+We put together and combined the data from the three collection devices,
+which gave us a neat data frame with 1644 observations.
 
-Professor Trash Wheel collected a total of **282.3 tons of trash in the
-available data. Gwynnda collected a total of **18,120\*\* cigarette
-butts in **June 2022**.
+According to the data, Professor Trash Wheel picked up 282.3 tons of
+trash. In **June 2022**, Gwynnda picked up a total of 18,120 cigarette
+butts.
 
-For reproducibility, we imported the data using `readxl::read_excel()`
-with the specified worksheet and omitted rows and columns containing
-annotations/charts during cleaning (this was achieved by filtering out
-missing rows for `date` and `dumpster` and retaining only the relevant
-columns for trash items). Additionally, we round the *Sports Balls*
-variable to the nearest integer and convert it to integer type
-(`as.integer(round(...))`) to be consistent with downstream analyses.
+To ensure reproducibility, we imported the data using
+`readxl::read_excel()` with the specified worksheet and left out any
+rows and columns that had notes or charts while cleaning (we did this by
+filtering out any missing rows for `date` and `dumpster` and keeping
+only the columns that were relevant for trash items). We also round the
+*Sports Balls* variable to the nearest whole number and change it to an
+integer type (`as.integer(round(...))`) so that it works with other
+analyses.
 
 # Problem 3
 
@@ -439,9 +424,8 @@ zip_zori_data  <-
 zip_data_1 <- zip_data |> 
   mutate(zip_code = as.character(zip_code)) |> 
   select(zip_code, county, neighborhood) |> 
-  distinct() |> 
   arrange(zip_code, county) |> 
-    distinct(zip_code, .keep_all = TRUE) |> 
+    distinct(zip_code, county, neighborhood, .keep_all = TRUE) |> 
   mutate(
     borough = case_when(
       county == "Bronx"    ~ "Bronx",
@@ -454,7 +438,7 @@ zip_data_1 <- zip_data |>
 zip_data_1
 ```
 
-    ## # A tibble: 320 × 4
+    ## # A tibble: 322 × 4
     ##    zip_code county   neighborhood                  borough  
     ##    <chr>    <chr>    <chr>                         <chr>    
     ##  1 10001    New York Chelsea and Clinton           Manhattan
@@ -467,7 +451,7 @@ zip_data_1
     ##  8 10008    New York <NA>                          Manhattan
     ##  9 10009    New York Lower East Side               Manhattan
     ## 10 10010    New York Gramercy Park and Murray Hill Manhattan
-    ## # ℹ 310 more rows
+    ## # ℹ 312 more rows
 
 3.  Converted wide dataset to long dataset
 
@@ -511,10 +495,19 @@ final_tidy <- zip_zori_data_1 |>
     everything()
   ) |> 
   arrange(zip_code, date)
+```
+
+    ## Warning in left_join(zip_zori_data_1, zip_data_1, by = "zip_code"): Detected an unexpected many-to-many relationship between `x` and `y`.
+    ## ℹ Row 4757 of `x` matches multiple rows in `y`.
+    ## ℹ Row 269 of `y` matches multiple rows in `x`.
+    ## ℹ If a many-to-many relationship is expected, set `relationship =
+    ##   "many-to-many"` to silence this warning.
+
+``` r
 final_tidy
 ```
 
-    ## # A tibble: 17,284 × 15
+    ## # A tibble: 17,516 × 15
     ##    zip_code borough   neighborhood        date        zori region_id size_rank
     ##    <chr>    <chr>     <chr>               <date>     <dbl>     <dbl>     <dbl>
     ##  1 10001    Manhattan Chelsea and Clinton 2015-01-31 3855.     61615      4444
@@ -527,7 +520,7 @@ final_tidy
     ##  8 10001    Manhattan Chelsea and Clinton 2015-08-31 4070.     61615      4444
     ##  9 10001    Manhattan Chelsea and Clinton 2015-09-30 4040.     61615      4444
     ## 10 10001    Manhattan Chelsea and Clinton 2015-10-31 4023.     61615      4444
-    ## # ℹ 17,274 more rows
+    ## # ℹ 17,506 more rows
     ## # ℹ 8 more variables: region_name <dbl>, region_type <chr>, state_name <chr>,
     ## #   state <chr>, city <chr>, metro <chr>, county_name <chr>, county <chr>
 
@@ -575,22 +568,21 @@ top10_change
 
 ## Explaination
 
-17284 observations, 15 variables, 149distinct zip code, and 42 distinct
+17516 observations, 15 variables, 149 distinct zip code, and 42 distinct
 community
 
-Before the merge, I removed the duplicated ZIP table, resolving rare
-duplicate rows caused by cross-county mis-entries, such as 11201 (should
-belong to Kings/Brooklyn) and 10463 (should belong to the Bronx). This
-ensured that after the merge, each ZIP had only one record per month.
+I worked to get clear of the duplicated ZIP table before the merge. This
+fixed rare duplicate rows that were caused by cross-county mistakes,
+like 11201 (which should have gone to Kings/Brooklyn) and 10463 (which
+should have gone to the Bronx). This made sure that each ZIP only had
+one record per month after the merge.
 
-Zillow’s ZORI often excludes ZIPs designated for PO Boxes, work units,
-airports, and corporate buildings because they often lack available
-rental samples. A small number of “border/suburban ZIPs” (such as 115xx)
-may be included in the ZIP list, but they fall outside the coverage of
-the NYC five-county area or the Zillow NYC dataset and are therefore
-also missing.
+Zillow’s ZORI often doesn’t include ZIPs for PO Boxes, work units,
+airports, and corporate buildings because they don’t have enough rental
+samples available. There may be a few “border/suburban ZIPs” (like
+115xx) on the ZIP list, but they are not in the NYC five-county area or
+the Zillow NYC dataset, so they are also missing.
 
-ZORIs for some ZIPs in the early years (2015–2017) were missing, but
-coverage has increased annually. Therefore, when performing
-year-over-year/month-over-month comparisons, it is recommended to use
-fixed months and filter out missing data.
+Some ZIPs didn’t have ZORIs in the beginning (2015–2017), but the number
+of ZORIs has grown every year since then. So, when you compare years or
+months, it’s best to use fixed months and leave out any missing data.
